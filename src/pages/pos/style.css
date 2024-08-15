@@ -1,0 +1,130 @@
+.POS-Container {
+  width: 100%;
+  min-height: calc(100dvh - 40px);
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.POS-Container .POS-name {
+  margin-top: 15px;
+  text-transform: capitalize;
+  font-weight: normal;
+  margin: 0 auto;
+}
+.POS-Container .POS-chargeItems {
+  margin-bottom: 0;
+  margin: auto auto 0;
+}
+.POS-Container .POS-totalBalance {
+  text-transform: capitalize;
+  font-weight: normal;
+  font-size: 50px;
+  margin: 0 auto auto;
+}
+
+.POS-Container .POS-btn {
+  display: flex;
+  background-color: var(--primary);
+  border-width: 0;
+  color: var(--darkModeText);
+  padding: 8px 20px;
+  border-radius: 8px;
+  margin: 10px auto 20px;
+  cursor: pointer;
+}
+.POS-Container .POS-btn .POS-btnIcon {
+  height: 20px;
+  width: auto;
+  margin-right: 5px;
+}
+
+.chargeContainer {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px auto;
+
+  background-color: rgb(0, 54, 83);
+  border-radius: 10px;
+  color: white;
+}
+.navItems {
+  width: 100%;
+  display: flex;
+  position: relative;
+  margin-bottom: 20px;
+}
+.navItems h3 {
+  width: 50%;
+  text-align: center;
+  cursor: pointer;
+  padding: 10px 0;
+  text-transform: uppercase;
+}
+.navItems .slider {
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  width: 50%;
+  left: 0%;
+  background-color: green;
+  transition: 0.3s all ease-out;
+}
+
+.navItems .translated {
+  left: 50%;
+}
+.navItems .unTranslated {
+  left: 0%;
+}
+
+.dollarValue {
+  margin: 0 auto;
+}
+
+.POS-keypad {
+  width: 100%;
+  margin-top: 50px;
+}
+
+.POS-keypad .POS-keypadRow {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.POS-keypad .POS-keypadRow .key {
+  width: min(calc(100dvw / 3), 138px);
+
+  height: min(calc(100dvw / 3), 70px);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.POS-keypad .POS-keypadRow .key span {
+  font-size: 20px;
+}
+
+.POS-LoadingScreen {
+  width: 100dvw;
+  height: 100dvh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.POS-LoadingScreen .POS-LoadingScreenDescription {
+  width: 80%;
+  text-align: center;
+  margin: 20px auto 0;
+}

@@ -1,0 +1,45 @@
+import React, { useState } from "react";
+import logo from "../../logo.png";
+import "./style.css";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+
+function HomePage() {
+  const [posName, setPosName] = useState("");
+  const navigate = useNavigate();
+
+  return (
+    <div className="Home">
+      <header className="Home-header">
+        <img src={logo} className="App-logo" alt="logo" />
+      </header>
+      <main className="Home-main">
+        <h1 className="Home-title">Blitz</h1>
+        <p className="Home-subtitle">
+          A point-of-sale online platform giving your business the ability to
+          receive Bitcoin custodial.
+        </p>
+
+        <div className="Home-inputContainer">
+          <p>Enter point-of-sale name</p>
+          <input
+            onInput={(e) => setPosName(e.currentTarget.value)}
+            placeholder="Point-of-sale name"
+            className="Home-input"
+            type="text"
+          />
+        </div>
+
+        <button
+          onClick={() => {
+            navigate(`./${posName}`);
+          }}
+          className="Home-button"
+        >
+          Continue
+        </button>
+      </main>
+    </div>
+  );
+}
+
+export default HomePage;
