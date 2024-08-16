@@ -24,3 +24,5 @@ yarn-error.log*
 
 
 .env
+src/functions/getUserFromFirebase.js
+src/functions/handleClaim.js
