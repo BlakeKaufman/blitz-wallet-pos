@@ -31,7 +31,7 @@
     "react/jsx-boolean-value": ["error"],
     "react/jsx-filename-extension": [
       "error",
-      { "extensions": [".jsx", "tsx"] }
+      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ],
     "react/jsx-no-leaked-render": ["error"],
     "react/self-closing-comp": [
