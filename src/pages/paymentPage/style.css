@@ -1,0 +1,32 @@
+.PaymentPage-Container {
+  width: 90%;
+  min-height: 100dvh;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.PaymentPage-QRcontainer {
+  /* width: 275px; */
+  /* height: 275px; */
+  overflow: hidden;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary);
+  padding: 15px;
+}
+.PaymentPage-QRPadding {
+  padding: 15px;
+  border-radius: 8px;
+  background-color: var(--darkModeText);
+}
+
+.PaymentPage-QR {
+  width: 250px;
+  height: 250px;
+  background-color: var(--darkModeText);
+}
