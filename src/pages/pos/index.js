@@ -11,13 +11,16 @@ import {
 import icons from "../../constants/icons";
 import { getSignleContact } from "../../functions/getUserFromFirebase";
 import LoadingAnimation from "../../components/loadingAnimation";
+import { reverseSwap } from "../../functions/handleClaim";
 function POSPage() {
   const { username } = useParams();
-  const [chargeAmount, setChargeAmount] = useState(""); //in cents
+  const [chargeAmount, setChargeAmount] = useState(""); // in cents
 
   const [addedItems, setAddedItems] = useState([]);
 
   const [hasAccount, setHasAccount] = useState(null);
+  const [boltzInvoice, setBoltzInvoice] = useState("");
+  const [didReceiveBoltzPayment, setDidReceiveBoltzPayment] = useState(false);
   const navigate = useNavigate();
 
   const totalAmount = addedItems.reduce((a, b) => {
@@ -32,9 +35,15 @@ function POSPage() {
     }
     getStoreInfo();
   }, []);
+
   return (
     <div className="POS-Container">
-      {hasAccount ? (
+      {boltzInvoice ? (
+        <div>
+          <p>INVIOCE</p>
+          <p>{boltzInvoice}</p>
+        </div>
+      ) : hasAccount ? (
         <>
           <h1 className="POS-name">{username}</h1>
 
@@ -161,6 +170,7 @@ function POSPage() {
             </div>
           </div>
           <button
+            onClick={handleInvoice}
             style={{ opacity: !totalAmount ? 0.5 : 1 }}
             className="POS-btn"
           >
@@ -186,7 +196,9 @@ function POSPage() {
               navigate(`/`);
             }}
             className="POS-btn"
-          >{`Back`}</button>
+          >
+            Back
+          </button>
         </div>
       )}
     </div>
@@ -219,6 +231,20 @@ function POSPage() {
       }
       console.log("NOT INT");
     }
+  }
+
+  async function handleInvoice() {
+    if (!totalAmount) return;
+
+    reverseSwap(
+      { amount: 2500, descriptoin: "" },
+      hasAccount.receiveAddress,
+      setDidReceiveBoltzPayment,
+      setBoltzInvoice,
+      username
+    );
+
+    console.log("test");
   }
 }
 
