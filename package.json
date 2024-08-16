@@ -17,7 +17,6 @@
     "@types/react-dom": "^18.0.0",
     "@vulpemventures/secp256k1-zkp": "3.2.1",
     "@zxing/library": "^0.20.0",
-    "axios": "^1.6.7",
     "bip32": "^4.0.0",
     "bip39": "^3.1.0",
     "bip65": "^1.0.3",
