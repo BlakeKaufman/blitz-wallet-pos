@@ -25,12 +25,12 @@ function POSPage() {
   }, 0);
 
   useEffect(() => {
-    // async function getStoreInfo() {
-    //   const data = await getSignleContact(username);
-    //   console.log(data, "TEST");
-    //   setHasAccount(data);
-    // }
-    // getStoreInfo();
+    async function getStoreInfo() {
+      const data = await getSignleContact(username);
+      console.log(data, "TEST");
+      setHasAccount(data);
+    }
+    getStoreInfo();
   }, []);
   return (
     <div className="POS-Container">
