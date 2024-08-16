@@ -58,7 +58,7 @@
     "@typescript-eslint/array-type": ["error"],
     "@typescript-eslint/quotes": [
       "error",
-      "single",
+      "double",
       {
         "avoidEscape": true,
         "allowTemplateLiterals": true
