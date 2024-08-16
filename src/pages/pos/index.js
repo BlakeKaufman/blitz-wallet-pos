@@ -156,7 +156,7 @@ function POSPage() {
                 }}
                 className="key"
               >
-                <span>+</span>
+                <span style={{ color: "var(--primary)" }}>+</span>
               </div>
             </div>
           </div>

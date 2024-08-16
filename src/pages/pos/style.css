@@ -19,11 +19,12 @@
 .POS-Container .POS-chargeItems {
   margin-bottom: 0;
   margin: auto auto 0;
+  font-size: 20px;
 }
 .POS-Container .POS-totalBalance {
   text-transform: capitalize;
   font-weight: normal;
-  font-size: 50px;
+  font-size: 70px;
   margin: 0 auto auto;
 }
 
