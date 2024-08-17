@@ -1,7 +1,5 @@
 .PaymentPage-Container {
-  width: 90%;
-  min-height: 100dvh;
-  margin: 0 auto;
+  margin: auto;
   align-items: center;
   justify-content: center;
   display: flex;

@@ -5,55 +5,66 @@ import "./style.css";
 import { copyTextToClipboard } from "../../functions/copyToClipboard";
 import Popup from "reactjs-popup";
 import CopyToCliboardPopup from "../../components/popup";
+import { useState } from "react";
 
-export default function PaymentPage() {
-  console.log(icons.Logo);
+export default function PaymentPage({ liquidAdress, boltzAddress }) {
+  const [selectedPaymentOption, setSelectedPaymentOption] =
+    useState("lightning");
   return (
     <div className="PaymentPage-Container">
-      <button className="PaymentPage-QRcontainer">
-        <div className="PaymentPage-QRPadding">
-          <QRCode
-            size={200}
-            imageSettings={{
-              src: icons.Logo,
-              height: 50,
-              width: 50,
-              excavate: true,
-            }}
-            value="testing"
-            renderAs="canvas"
+      <p>{selectedPaymentOption}</p>
+      <Popup
+        trigger={
+          <button className="PaymentPage-QRcontainer">
+            <div className="PaymentPage-QRPadding">
+              <QRCode
+                size={220}
+                imageSettings={{
+                  src: icons.Logo,
+                  height: 50,
+                  width: 50,
+                  excavate: true,
+                }}
+                value={
+                  selectedPaymentOption === "lightning"
+                    ? boltzAddress
+                    : liquidAdress
+                }
+                renderAs="canvas"
+              />
+            </div>
+          </button>
+        }
+        modal
+      >
+        {(close) => (
+          <CopyToCliboardPopup
+            content={
+              selectedPaymentOption === "lightning"
+                ? boltzAddress
+                : liquidAdress
+            }
+            close={close}
           />
-        </div>
-      </button>
+        )}
+      </Popup>
+
       <div className="QR-OptionsContainer">
         <button className="QR-Option">Edit</button>
-        <Popup
-          trigger={
-            <button
-              onClick={() => {
-                copyTextToClipboard("Testing");
-              }}
-              className="QR-Option"
-            >
-              {" "}
-              Copy
-            </button>
-          }
-          modal
-        >
-          {(close) => <CopyToCliboardPopup close={close} />}
+        <Popup trigger={<button className="QR-Option">Copy</button>} modal>
+          {(close) => (
+            <CopyToCliboardPopup
+              content={
+                selectedPaymentOption === "lightning"
+                  ? boltzAddress
+                  : liquidAdress
+              }
+              close={close}
+            />
+          )}
         </Popup>
-        {/* <button
-          onClick={() => {
-            copyTextToClipboard("Testing");
-          }}
-          className="QR-Option"
-        >
-          Copy
-        </button> */}
       </div>
       <button className="QR-OptionNoFill QR-Option">Choose format</button>
-      {/* <PopupComponenet popupContent="test" /> */}
     </div>
   );
 }
