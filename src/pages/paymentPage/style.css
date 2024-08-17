@@ -16,11 +16,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--primary);
-  padding: 15px;
+  background-color: var(--lightModeBackgroundOffset);
+  padding: 10px;
+  border-width: 0;
+  cursor: pointer;
 }
 .PaymentPage-QRPadding {
-  padding: 15px;
+  padding: 10px;
   border-radius: 8px;
   background-color: var(--darkModeText);
 }
@@ -29,4 +31,30 @@
   width: 250px;
   height: 250px;
   background-color: var(--darkModeText);
+}
+
+.QR-OptionsContainer {
+  width: 240px;
+  display: flex;
+  margin-top: 20px;
+  justify-content: space-between;
+}
+
+.QR-Option {
+  width: 45%;
+  background-color: var(--darkModeText);
+  border-width: 0;
+  padding: 8px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.QR-OptionNoFill {
+  width: max-content;
+  max-width: 200px;
+  background-color: unset;
+  border-width: 1px;
+  margin-top: 10px;
+  padding: 0 10px;
 }
