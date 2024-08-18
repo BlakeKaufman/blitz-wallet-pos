@@ -55,7 +55,7 @@
   color: var(--darkModeText);
   padding: 8px 20px;
   border-radius: 8px;
-  margin: 10px auto 20px;
+  margin: 10px auto 0;
   cursor: pointer;
 }
 .POS-Container .POS-btn .POS-btnIcon {
@@ -148,4 +148,9 @@
   width: 80%;
   text-align: center;
   margin: 20px auto 0;
+}
+
+.POS-denominationDisclaimer {
+  margin: 0 auto 20px;
+  font-size: 12px;
 }

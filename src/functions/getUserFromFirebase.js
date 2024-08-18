@@ -26,7 +26,7 @@ import {
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
+  apiKey: "AIzaSyBKn2evN91MVTfrAQgL23y1v8gHcVO6oU8",
   authDomain: "blitz-wallet-82b39.firebaseapp.com",
   projectId: "blitz-wallet-82b39",
   storageBucket: "blitz-wallet-82b39.appspot.com",

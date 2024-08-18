@@ -13,11 +13,13 @@ import { getSignleContact } from "../../functions/getUserFromFirebase";
 import LoadingAnimation from "../../components/loadingAnimation";
 import { reverseSwap } from "../../functions/handleClaim";
 import PaymentPage from "../paymentPage";
+import getBitcoinPrice from "../../functions/getBitcoinPrice";
 function POSPage() {
   const { username } = useParams();
   const [chargeAmount, setChargeAmount] = useState(""); // in cents
 
   const [addedItems, setAddedItems] = useState([]);
+  const [bitcoinPrice, setBitcoinPrice] = useState(0);
 
   const [hasAccount, setHasAccount] = useState(null);
   const [boltzInvoice, setBoltzInvoice] = useState("");
@@ -30,16 +32,24 @@ function POSPage() {
     return a + Number(b.amount / 100);
   }, 0);
 
+  const convertedSatAmount = (100000000 / bitcoinPrice) * totalAmount;
+
+  console.log(bitcoinPrice, convertedSatAmount, hasAccount);
+
   useEffect(() => {
-    async function getStoreInfo() {
+    async function initPage() {
       const data = await getSignleContact(username);
+      console.log(data.storeCurrency);
+      const retrivedBitcoinPrice = await getBitcoinPrice({
+        denomination: data?.storeCurrency || "usd",
+      });
       console.log(data, "TEST");
       setHasAccount(data);
+      setBitcoinPrice(retrivedBitcoinPrice);
     }
-    getStoreInfo();
-  }, []);
 
-  console.log(boltzInvoice);
+    initPage();
+  }, []);
 
   return (
     <div className="POS-Container">
@@ -202,6 +212,9 @@ function POSPage() {
 
               {`Charge $${totalAmount.toFixed(2)}`}
             </button>
+            <p className="POS-denominationDisclaimer">{`Priced in ${
+              hasAccount.storeCurrency || "USD"
+            }`}</p>
           </>
         ) : hasAccount === null ? (
           <div className="POS-LoadingScreen">
