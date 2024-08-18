@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
-import logo from "../../logo.svg";
+
 import "./style.css";
 
-import {
-  Navigate,
-  useNavigate,
-  useNavigation,
-  useParams,
-} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import icons from "../../constants/icons";
 import { getSignleContact } from "../../functions/getUserFromFirebase";
 import LoadingAnimation from "../../components/loadingAnimation";
 import { reverseSwap } from "../../functions/handleClaim";
 import PaymentPage from "../paymentPage";
 import getBitcoinPrice from "../../functions/getBitcoinPrice";
+import ConfirmPaymentScreen from "../../components/confirmScreen/confirmPaymentScreen";
 function POSPage() {
   const { username } = useParams();
   const [chargeAmount, setChargeAmount] = useState(""); // in cents
@@ -23,27 +19,27 @@ function POSPage() {
 
   const [hasAccount, setHasAccount] = useState(null);
   const [boltzInvoice, setBoltzInvoice] = useState("");
-  const [isGeneratingBoltzInvoice, setIsGeneratingBoltzInvoice] =
-    useState(false);
-  const [didReceiveBoltzPayment, setDidReceiveBoltzPayment] = useState(false);
+  const [boltzLoadingAnimation, setBoltzLoadingAnimation] = useState("");
+  const [didReceiveBoltzPayment, setDidReceiveBoltzPayment] = useState(null);
   const navigate = useNavigate();
 
   const totalAmount = addedItems.reduce((a, b) => {
     return a + Number(b.amount / 100);
   }, 0);
 
-  const convertedSatAmount = (100000000 / bitcoinPrice) * totalAmount;
+  const dollarSatValue = 100000000 / bitcoinPrice;
+  const convertedSatAmount = dollarSatValue * totalAmount;
 
-  console.log(bitcoinPrice, convertedSatAmount, hasAccount);
+  const canReceivePayment = totalAmount != 0 && convertedSatAmount > 1000;
 
   useEffect(() => {
     async function initPage() {
       const data = await getSignleContact(username);
-      console.log(data.storeCurrency);
+
       const retrivedBitcoinPrice = await getBitcoinPrice({
         denomination: data?.storeCurrency || "usd",
       });
-      console.log(data, "TEST");
+
       setHasAccount(data);
       setBitcoinPrice(retrivedBitcoinPrice);
     }
@@ -69,11 +65,19 @@ function POSPage() {
         {hasAccount ? <h1 className="POS-name">{username}</h1> : <p></p>}
       </div>
       <div className="POS-ContentContainer">
-        {isGeneratingBoltzInvoice ? (
-          <div className="POS-LoadingScreen">
-            <LoadingAnimation />
-            <p className="POS-LoadingScreenDescription">Generating invoice</p>
-          </div>
+        {boltzLoadingAnimation ? (
+          <>
+            {didReceiveBoltzPayment ? (
+              <ConfirmPaymentScreen clearSettings={clearSettings} />
+            ) : (
+              <div className="POS-LoadingScreen">
+                <LoadingAnimation />
+                <p className="POS-LoadingScreenDescription">
+                  {boltzLoadingAnimation}
+                </p>
+              </div>
+            )}
+          </>
         ) : boltzInvoice ? (
           <PaymentPage
             liquidAdress={hasAccount?.receiveAddress}
@@ -87,14 +91,30 @@ function POSPage() {
               <p className="POS-chargeItems">
                 {addedItems
                   .map((value, index) => {
-                    return `$${value.amount / 100}`;
+                    return `$${(value.amount / 100).toLocaleString()}`;
                   })
                   .join(" + ")}
               </p>
             )}
-            <h1 className="POS-totalBalance">{`$${
-              !chargeAmount ? "0" : Number(chargeAmount / 100).toFixed(2)
-            }`}</h1>
+            <div className="POS-BalanceView">
+              <h1 style={{ margin: 0 }} className="POS-totalBalance">
+                $
+              </h1>
+              <div className="POS-BalanceScrollView">
+                <h1 className="POS-totalBalance">{`${
+                  !chargeAmount
+                    ? "0"
+                    : Number(chargeAmount / 100).toLocaleString()
+                }`}</h1>
+              </div>
+            </div>
+            {totalAmount != 0 && convertedSatAmount < 1000 ? (
+              <p className="POS-AmountError">{`Minimum invoice amount is ${(
+                1000 / dollarSatValue
+              ).toFixed(2)} ${hasAccount?.storeCurrency || "USD"}`}</p>
+            ) : (
+              <p className="POS-AmountError"> </p>
+            )}
 
             <div className="POS-keypad">
               <div className="POS-keypadRow">
@@ -194,7 +214,6 @@ function POSPage() {
                 </div>
                 <div
                   onClick={() => {
-                    console.log("PRESSED");
                     addNumToBalance("+");
                   }}
                   className="key"
@@ -205,12 +224,12 @@ function POSPage() {
             </div>
             <button
               onClick={handleInvoice}
-              style={{ opacity: !totalAmount ? 0.5 : 1 }}
+              style={{ opacity: !canReceivePayment ? 0.5 : 1 }}
               className="POS-btn"
             >
               <img className="POS-btnIcon" src={icons.LNicon}></img>
 
-              {`Charge $${totalAmount.toFixed(2)}`}
+              {`Charge $${totalAmount.toLocaleString()}`}
             </button>
             <p className="POS-denominationDisclaimer">{`Priced in ${
               hasAccount.storeCurrency || "USD"
@@ -234,8 +253,15 @@ function POSPage() {
     </div>
   );
 
+  function clearSettings() {
+    setAddedItems([]);
+    setBoltzInvoice("");
+    setBoltzLoadingAnimation("");
+    setDidReceiveBoltzPayment(null);
+    setChargeAmount("");
+  }
+
   function addNumToBalance(targetNum) {
-    console.log("RUNNING");
     if (Number.isInteger(targetNum)) {
       setChargeAmount((prev) => {
         let num;
@@ -245,7 +271,6 @@ function POSPage() {
 
         return num;
       });
-      console.log("INT");
     } else {
       if (targetNum.toLowerCase() === "c") {
         if (!chargeAmount) setAddedItems([]);
@@ -259,24 +284,23 @@ function POSPage() {
         });
         setChargeAmount("");
       }
-      console.log("NOT INT");
     }
   }
 
   async function handleInvoice() {
-    if (!totalAmount) return;
-    setIsGeneratingBoltzInvoice(true);
+    if (!canReceivePayment) return;
+    setBoltzLoadingAnimation("Generating invoice");
 
     reverseSwap(
-      { amount: 2500, descriptoin: "" },
-      hasAccount.receiveAddress,
+      { amount: convertedSatAmount, descriptoin: "" },
+      process.env.REACT_APP_ENVIRONMENT === "testnet"
+        ? process.env.REACT_APP_LIQUID_TESTNET_ADDRESS
+        : hasAccount.receiveAddress,
       setDidReceiveBoltzPayment,
       setBoltzInvoice,
       username,
-      setIsGeneratingBoltzInvoice
+      setBoltzLoadingAnimation
     );
-
-    console.log("test");
   }
 }
 

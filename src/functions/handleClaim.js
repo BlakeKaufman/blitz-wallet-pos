@@ -31,7 +31,11 @@ import fetchFunction from "./fetchFunction";
  * 4. user validates lightining invoice
  */
 
-export const waitAndClaim = async (claimInfo, onFinish) => {
+export const waitAndClaim = async (
+  claimInfo,
+  onFinish,
+  setBoltzLoadingAnimation
+) => {
   init(await zkpInit());
   let claimTx;
   const network = getNetwork(process.env.REACT_APP_ENVIRONMENT);
@@ -61,7 +65,7 @@ export const waitAndClaim = async (claimInfo, onFinish) => {
 
     if (msg.args[0].error) {
       webSocket.close();
-      onFinish("");
+      onFinish(false);
       return;
     }
 
@@ -76,6 +80,7 @@ export const waitAndClaim = async (claimInfo, onFinish) => {
       // which will only happen after the user paid the Lightning hold invoice
       case "transaction.mempool":
       case "transaction.confirmed": {
+        setBoltzLoadingAnimation("Processing payment");
         // save claim to be able to retry if something fails
         claimInfo.lastStatus = msg.args[0].status;
         // saveClaim(claimInfo, process.env.REACT_APP_ENVIRONMENT);
@@ -200,7 +205,7 @@ export const waitAndClaim = async (claimInfo, onFinish) => {
 
         claimInfo.claimed = true;
         // removeClaim(claimInfo, process.env.REACT_APP_ENVIRONMENT);
-        onFinish(claimTx.getId());
+        onFinish(true);
         break;
       }
 
@@ -234,7 +239,7 @@ export const reverseSwap = async (
   onFinish,
   onInvoice,
   buisnessName,
-  setIsGeneratingBoltzInvoice
+  setBoltzLoadingAnimation
 ) => {
   console.log("recvInfo", recvInfo, destinationAddress);
   // Create a random preimage for the swap; has to have a length of 32 bytes
@@ -263,7 +268,7 @@ export const reverseSwap = async (
   );
 
   // Show invoice on wallet UI
-  setIsGeneratingBoltzInvoice(false);
+  setBoltzLoadingAnimation("");
   onInvoice(createdResponse.invoice);
 
   const claimInfo = {
@@ -277,7 +282,7 @@ export const reverseSwap = async (
   };
 
   // Wait for Boltz to lock funds onchain and than claim them
-  waitAndClaim(claimInfo, onFinish);
+  waitAndClaim(claimInfo, onFinish, setBoltzLoadingAnimation);
 };
 
 export const getLiquidAddress = async (invoice, magicHint) => {

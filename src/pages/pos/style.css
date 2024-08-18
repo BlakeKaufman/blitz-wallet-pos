@@ -41,11 +41,28 @@
   margin: auto auto 0;
   font-size: 20px;
 }
+.POS-Container .POS-BalanceView {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 .POS-Container .POS-totalBalance {
   text-transform: capitalize;
   font-weight: normal;
   font-size: 70px;
   margin: 0 auto auto;
+}
+.POS-Container .POS-ReadonlyInput {
+  background-color: unset;
+  border-width: 0;
+}
+.POS-Container .POS-BalanceScrollView {
+  width: auto;
+  height: fit-content;
+  overflow-y: scroll;
+}
+.POS-Container .POS-AmountError {
+  margin: 0 auto;
 }
 
 .POS-Container .POS-btn {
