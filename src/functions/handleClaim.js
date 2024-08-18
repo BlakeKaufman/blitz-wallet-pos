@@ -115,7 +115,7 @@ export const waitAndClaim = async (
 
         // Create a claim transaction to be signed cooperatively via a key path spend
         const feeRate = await getBoltzFeeRates();
-        console.log(feeRate);
+
         claimTx = targetFee(feeRate, (fee) =>
           constructClaimTransaction(
             [
@@ -153,7 +153,6 @@ export const waitAndClaim = async (
           },
           "post"
         );
-        console.log(boltzSig);
 
         // Aggregate the nonces
         musig.aggregateNonces([
@@ -189,7 +188,6 @@ export const waitAndClaim = async (
         // saveClaim(claimInfo, process.env.REACT_APP_ENVIRONMENT);
 
         console.log("Broadcasting claim transaction");
-        console.log(claimTx.toHex());
 
         const didBroadcast = fetchFunction(
           `${getBoltzApiUrl(
@@ -241,7 +239,6 @@ export const reverseSwap = async (
   buisnessName,
   setBoltzLoadingAnimation
 ) => {
-  console.log("recvInfo", recvInfo, destinationAddress);
   // Create a random preimage for the swap; has to have a length of 32 bytes
   const preimage = randomBytes(32);
   const keys = ECPairFactory(ecc).makeRandom();
