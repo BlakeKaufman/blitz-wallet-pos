@@ -19,7 +19,9 @@ export default function ChangeSelectedReceiveOptionPopup({
           }}
           style={{
             backgroundColor:
-              selectedPaymentOption === "liquid" ? "var(--primary)" : "unset",
+              selectedPaymentOption === "liquid"
+                ? "var(--primary)"
+                : "(--lightModeBackgroundOffset)",
             color:
               selectedPaymentOption === "liquid"
                 ? "var(--darkModeText)"
@@ -39,7 +41,7 @@ export default function ChangeSelectedReceiveOptionPopup({
             backgroundColor:
               selectedPaymentOption === "lightning"
                 ? "var(--primary)"
-                : "unset",
+                : "var(--lightModeBackgroundOffset)",
             color:
               selectedPaymentOption === "lightning"
                 ? "var(--darkModeText)"
@@ -49,7 +51,11 @@ export default function ChangeSelectedReceiveOptionPopup({
         >
           <img
             className="ChangePaymentContainer-Img"
-            src={icons.LightningIcon}
+            src={
+              selectedPaymentOption === "lightning"
+                ? icons.LightningIconLight
+                : icons.LightningIconDark
+            }
           />
           <p>Lightning Network</p>
         </div>

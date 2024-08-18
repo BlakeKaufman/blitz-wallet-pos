@@ -3,7 +3,8 @@ import Logo from "../logo.png";
 import leftArrow from "../assets/icons/arrowLeft.png";
 import CheckMark from "../assets/icons/checkMark.png";
 import LiquidIcon from "../assets/icons/liquidIcon.svg";
-import LightningIcon from "../assets/icons/LightningIcon.svg";
+import LightningIconLight from "../assets/icons/LightningIconLight.svg";
+import LightningIconDark from "../assets/icons/LightningIconDark.svg";
 
 export default {
   LNicon,
@@ -11,5 +12,6 @@ export default {
   CheckMark,
   leftArrow,
   LiquidIcon,
-  LightningIcon,
+  LightningIconLight,
+  LightningIconDark,
 };
