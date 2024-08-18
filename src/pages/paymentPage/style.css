@@ -46,6 +46,7 @@
   border-radius: 8px;
   cursor: pointer;
   font-size: 18px;
+  color: var(--darkModeText);
 }
 
 .QR-OptionNoFill {
@@ -55,4 +56,5 @@
   border-width: 1px;
   margin-top: 10px;
   padding: 0 10px;
+  color: var(--lightModeText);
 }

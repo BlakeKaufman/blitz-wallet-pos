@@ -151,6 +151,9 @@
     "Helvetica Neue", sans-serif;
   box-sizing: border-box;
 }
+button {
+  color: var(--lightModeText);
+}
 
 body {
   margin: 0;
