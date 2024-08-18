@@ -83,6 +83,9 @@ function POSPage() {
             liquidAdress={hasAccount?.receiveAddress}
             boltzAddress={boltzInvoice}
             setBoltzInvoice={setBoltzInvoice}
+            setBoltzLoadingAnimation={setBoltzLoadingAnimation}
+            setDidReceiveBoltzPayment={setDidReceiveBoltzPayment}
+            convertedSatAmount={convertedSatAmount}
           />
         ) : hasAccount ? (
           <>

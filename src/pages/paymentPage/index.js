@@ -2,19 +2,64 @@
 import QRCode from "qrcode.react";
 import icons from "../../constants/icons";
 import "./style.css";
-import { copyTextToClipboard } from "../../functions/copyToClipboard";
 import Popup from "reactjs-popup";
 import CopyToCliboardPopup from "../../components/popup";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ChangeSelectedReceiveOptionPopup from "../../components/popup/changeSelectedReceiveOption";
+import getLiquidAddressInfo from "../../functions/lookForLiquidPayment";
 
 export default function PaymentPage({
   liquidAdress,
   boltzAddress,
   setBoltzInvoice,
+  setBoltzLoadingAnimation,
+  setDidReceiveBoltzPayment,
+  convertedSatAmount,
 }) {
+  const formatedLiquidAddress = `${
+    process.env.REACT_APP_ENVIRONMENT === "testnet"
+      ? "liquidtestnet:"
+      : "liquidnetwork:"
+  }${
+    process.env.REACT_APP_ENVIRONMENT === "testnet"
+      ? process.env.REACT_APP_LIQUID_TESTNET_ADDRESS
+      : liquidAdress
+  }?amount=${(convertedSatAmount / 100000000).toFixed(8)}&assetid=${
+    process.env.REACT_APP_ENVIRONMENT === "testnet"
+      ? "144c654344aa716d6f3abcc1ca90e5641e4e2a7f633bc09fe3baf64585819a49"
+      : "6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d"
+  }`;
+  const intervalRef = useRef(null);
   const [selectedPaymentOption, setSelectedPaymentOption] =
     useState("lightning");
+
+  useEffect(() => {
+    if (selectedPaymentOption != "liquid") {
+      clearInterval(intervalRef.current);
+
+      return;
+    }
+    async function handleLiquidClaim() {
+      intervalRef.current = setInterval(async () => {
+        let liquidAddressInfo = await getLiquidAddressInfo({
+          address:
+            process.env.REACT_APP_ENVIRONMENT === "testnet"
+              ? process.env.REACT_APP_LIQUID_TESTNET_ADDRESS
+              : liquidAdress,
+        });
+
+        if (liquidAddressInfo.mempool_stats.tx_count != 0) {
+          setBoltzLoadingAnimation("Receiving payment");
+          clearInterval(intervalRef.current);
+          setDidReceiveBoltzPayment(true);
+        }
+      }, 2500);
+    }
+    handleLiquidClaim();
+    return () => {
+      clearInterval(intervalRef.current);
+    };
+  }, [selectedPaymentOption]);
   return (
     <div className="PaymentPage-Container">
       <p>{selectedPaymentOption}</p>
@@ -33,7 +78,7 @@ export default function PaymentPage({
                 value={
                   selectedPaymentOption === "lightning"
                     ? boltzAddress
-                    : liquidAdress
+                    : formatedLiquidAddress
                 }
                 renderAs="canvas"
               />
@@ -47,7 +92,7 @@ export default function PaymentPage({
             content={
               selectedPaymentOption === "lightning"
                 ? boltzAddress
-                : liquidAdress
+                : formatedLiquidAddress
             }
             close={close}
           />
@@ -64,7 +109,7 @@ export default function PaymentPage({
               content={
                 selectedPaymentOption === "lightning"
                   ? boltzAddress
-                  : liquidAdress
+                  : formatedLiquidAddress
               }
               close={close}
             />
