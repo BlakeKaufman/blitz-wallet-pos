@@ -9,7 +9,7 @@ export default function CopyToCliboardPopup({ close, content }) {
   return (
     <div className="Popup-Container">
       <p className="Popup-Text">Text copied to clipboard</p>
-      <div className="Popup-deviderBar"></div>
+      <div className="Popup-deviderBar" />
       <button
         className="Popup-Button"
         onClick={() => {

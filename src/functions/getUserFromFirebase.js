@@ -5,24 +5,11 @@ import { initializeApp } from "firebase/app";
 import {
   getFirestore,
   collection,
-  addDoc,
-  doc,
-  setDoc,
-  Firestore,
-  getDocFromServer,
   getDocs,
-  getDoc,
-  deleteDoc,
   query,
   where,
 } from "firebase/firestore";
-import {
-  getAuth,
-  initializeAuth,
-  signInAnonymously,
-  getReactNativePersistence,
-  signInWithCustomToken,
-} from "firebase/auth";
+import { initializeAuth, signInAnonymously } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
