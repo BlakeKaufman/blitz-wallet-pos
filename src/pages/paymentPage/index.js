@@ -6,8 +6,13 @@ import { copyTextToClipboard } from "../../functions/copyToClipboard";
 import Popup from "reactjs-popup";
 import CopyToCliboardPopup from "../../components/popup";
 import { useState } from "react";
+import ChangeSelectedReceiveOptionPopup from "../../components/popup/changeSelectedReceiveOption";
 
-export default function PaymentPage({ liquidAdress, boltzAddress }) {
+export default function PaymentPage({
+  liquidAdress,
+  boltzAddress,
+  setBoltzInvoice,
+}) {
   const [selectedPaymentOption, setSelectedPaymentOption] =
     useState("lightning");
   return (
@@ -50,7 +55,9 @@ export default function PaymentPage({ liquidAdress, boltzAddress }) {
       </Popup>
 
       <div className="QR-OptionsContainer">
-        <button className="QR-Option">Edit</button>
+        <button onClick={() => setBoltzInvoice("")} className="QR-Option">
+          Edit
+        </button>
         <Popup trigger={<button className="QR-Option">Copy</button>} modal>
           {(close) => (
             <CopyToCliboardPopup
@@ -64,7 +71,20 @@ export default function PaymentPage({ liquidAdress, boltzAddress }) {
           )}
         </Popup>
       </div>
-      <button className="QR-OptionNoFill QR-Option">Choose format</button>
+      <Popup
+        trigger={
+          <button className="QR-OptionNoFill QR-Option">Choose format</button>
+        }
+        modal
+      >
+        {(close) => (
+          <ChangeSelectedReceiveOptionPopup
+            close={close}
+            setSelectedPaymentOption={setSelectedPaymentOption}
+            selectedPaymentOption={selectedPaymentOption}
+          />
+        )}
+      </Popup>
     </div>
   );
 }

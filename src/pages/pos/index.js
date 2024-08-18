@@ -82,6 +82,7 @@ function POSPage() {
           <PaymentPage
             liquidAdress={hasAccount?.receiveAddress}
             boltzAddress={boltzInvoice}
+            setBoltzInvoice={setBoltzInvoice}
           />
         ) : hasAccount ? (
           <>
