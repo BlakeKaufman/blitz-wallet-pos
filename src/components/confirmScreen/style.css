@@ -1,0 +1,35 @@
+.ConfirmPayment-container {
+  height: 100dvh;
+  width: 100dvw;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  background-color: var(--nostrGreen);
+
+  display: flex;
+}
+.ConfirmPayment-ContentContainer {
+  max-width: 500px;
+  height: 100%;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.ConfirmPayment-Icon {
+  width: 50%;
+  height: auto;
+  margin: auto 0;
+}
+
+.ConfirmScreen-BTN {
+  border-width: 0;
+  border-radius: 8px;
+  margin-bottom: 50px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
