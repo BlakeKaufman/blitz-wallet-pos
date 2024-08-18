@@ -1,12 +1,10 @@
-import "./style.css";
+import Lottie from "lottie-react";
+import spinnerAnimation from "../../assets/spinnerloading.json";
 
 export default function LoadingAnimation() {
   return (
-    <div className="lds-ring">
-      <div />
-      <div />
-      <div />
-      <div />
+    <div>
+      <Lottie animationData={spinnerAnimation} loop />
     </div>
   );
 }
