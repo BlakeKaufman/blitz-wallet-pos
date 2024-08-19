@@ -16,7 +16,7 @@ function HomePage() {
         <h1 className="Home-title">Blitz</h1>
         <p className="Home-subtitle">
           A point-of-sale online platform giving your business the ability to
-          receive Bitcoin custodial.
+          receive Bitcoin.
         </p>
 
         <div className="Home-inputContainer">
