@@ -6,10 +6,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import icons from "../../constants/icons";
 import { getSignleContact } from "../../functions/getUserFromFirebase";
 import LoadingAnimation from "../../components/loadingAnimation";
-import { reverseSwap } from "../../functions/handleClaim";
+import { reverseSwap, waitAndClaim } from "../../functions/handleClaim";
 import PaymentPage from "../paymentPage";
 import getBitcoinPrice from "../../functions/getBitcoinPrice";
 import ConfirmPaymentScreen from "../../components/confirmScreen/confirmPaymentScreen";
+import useIsTabActive from "../../hooks/isTapActive";
 function POSPage() {
   const { username } = useParams();
   const [chargeAmount, setChargeAmount] = useState(""); // in cents
@@ -21,6 +22,10 @@ function POSPage() {
   const [boltzInvoice, setBoltzInvoice] = useState("");
   const [boltzLoadingAnimation, setBoltzLoadingAnimation] = useState("");
   const [didReceiveBoltzPayment, setDidReceiveBoltzPayment] = useState(null);
+
+  const [boltzSwapClaimInfo, setBoltzSwapClaimInfo] = useState({});
+  const isTabActive = useIsTabActive();
+
   const navigate = useNavigate();
 
   const totalAmount = addedItems.reduce((a, b) => {
@@ -46,6 +51,19 @@ function POSPage() {
 
     initPage();
   }, []);
+
+  useEffect(() => {
+    if (Object.keys(boltzSwapClaimInfo).length === 0) return;
+    if (isTabActive) return;
+    console.log("RUNNING IN UES EFFECT");
+
+    if (boltzLoadingAnimation === "Processing payment") return;
+    waitAndClaim(
+      boltzSwapClaimInfo,
+      setDidReceiveBoltzPayment,
+      setBoltzLoadingAnimation
+    );
+  }, [isTabActive]);
 
   return (
     <div className="POS-Container">
@@ -263,6 +281,7 @@ function POSPage() {
     setBoltzLoadingAnimation("");
     setDidReceiveBoltzPayment(null);
     setChargeAmount("");
+    setBoltzSwapClaimInfo({});
   }
 
   function addNumToBalance(targetNum) {
@@ -295,7 +314,7 @@ function POSPage() {
     if (!canReceivePayment) return;
     setBoltzLoadingAnimation("Generating invoice");
 
-    reverseSwap(
+    const claimInfo = await reverseSwap(
       { amount: convertedSatAmount, descriptoin: "" },
       process.env.REACT_APP_ENVIRONMENT === "testnet"
         ? process.env.REACT_APP_LIQUID_TESTNET_ADDRESS
@@ -305,6 +324,7 @@ function POSPage() {
       username,
       setBoltzLoadingAnimation
     );
+    setBoltzSwapClaimInfo(claimInfo);
   }
 }
 

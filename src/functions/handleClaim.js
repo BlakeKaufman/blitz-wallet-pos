@@ -280,6 +280,7 @@ export const reverseSwap = async (
 
   // Wait for Boltz to lock funds onchain and than claim them
   waitAndClaim(claimInfo, onFinish, setBoltzLoadingAnimation);
+  return claimInfo;
 };
 
 export const getLiquidAddress = async (invoice, magicHint) => {
