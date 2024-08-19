@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import logo from "../../logo.png";
 import "./style.css";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { saveAccount } from "../../functions/localStorage";
 
 function HomePage() {
   const [posName, setPosName] = useState("");
@@ -31,6 +32,7 @@ function HomePage() {
 
         <button
           onClick={() => {
+            saveAccount(posName);
             navigate(`./${posName}`);
           }}
           className="Home-button"
