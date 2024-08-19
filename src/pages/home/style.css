@@ -52,17 +52,7 @@
 }
 
 .Home-main .Home-button {
-  width: auto;
-  padding: 12px 40px;
-
-  background-color: var(--lightModeBackgroundOffset);
-  border-width: 0;
-  border-radius: 8px;
-  cursor: pointer;
-
   margin: 80px auto 20px;
-  font-size: 18px;
-  color: var(--lightModeText);
 }
 /* @media (prefers-reduced-motion: no-preference) {
   .App-logo {
