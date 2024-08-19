@@ -11,6 +11,7 @@ import PaymentPage from "../paymentPage";
 import getBitcoinPrice from "../../functions/getBitcoinPrice";
 import ConfirmPaymentScreen from "../../components/confirmScreen/confirmPaymentScreen";
 import useIsTabActive from "../../hooks/isTapActive";
+import { clearAccount, getAccount } from "../../functions/localStorage";
 function POSPage() {
   const { username } = useParams();
   const [chargeAmount, setChargeAmount] = useState(""); // in cents
@@ -74,7 +75,11 @@ function POSPage() {
               setBoltzInvoice("");
               return;
             }
-            navigate(`/`);
+            clearAccount();
+
+            setTimeout(() => {
+              navigate(`/`, { replace: true });
+            }, 300);
           }}
           alt="Back arrow"
           className="POS-back"
