@@ -27,9 +27,8 @@
 }
 
 .ConfirmScreen-BTN {
-  border-width: 0;
-  border-radius: 8px;
   margin-bottom: 50px;
-  padding: 10px 20px;
-  cursor: pointer;
+  color: var(--nostrGreen);
+  background-color: var(--darkModeText);
+  font-weight: 600;
 }
