@@ -152,7 +152,14 @@
   box-sizing: border-box;
 }
 button {
+  width: auto;
+  padding: 8px 30px;
   color: var(--lightModeText);
+  background-color: var(--lightModeBackgroundOffset);
+  border-width: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
 }
 
 body {
