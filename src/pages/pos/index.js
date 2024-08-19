@@ -11,7 +11,7 @@ import PaymentPage from "../paymentPage";
 import getBitcoinPrice from "../../functions/getBitcoinPrice";
 import ConfirmPaymentScreen from "../../components/confirmScreen/confirmPaymentScreen";
 import useIsTabActive from "../../hooks/isTapActive";
-import { clearAccount, getAccount } from "../../functions/localStorage";
+import { clearAccount } from "../../functions/localStorage";
 function POSPage() {
   const { username } = useParams();
   const [chargeAmount, setChargeAmount] = useState(""); // in cents
