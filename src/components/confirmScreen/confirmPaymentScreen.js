@@ -1,15 +1,32 @@
 import "./style.css";
-import icons from "../../constants/icons";
+import { useEffect, useState } from "react";
+import Lottie from "lottie-react";
+import checkAnimation from "../../assets/checkmark.json";
 
 export default function ConfirmPaymentScreen({ clearSettings }) {
+  const [showButton, setShowButton] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowButton(true);
+    }, 600);
+  }, []);
   return (
     <div className="ConfirmPayment-container">
+      <div className="ConfirmPayment-BackgroundAnimation"></div>
       <div className="ConfirmPayment-ContentContainer">
-        <img className="ConfirmPayment-Icon" src={icons.CheckMark} />
-
-        <button onClick={clearSettings} className="ConfirmScreen-BTN">
-          Continue
-        </button>
+        <Lottie
+          loop={false}
+          className="ConfirmPayment-Icon"
+          animationData={checkAnimation}
+        />
+        {showButton ? (
+          <button onClick={clearSettings} className="ConfirmScreen-BTN">
+            Continue
+          </button>
+        ) : (
+          <p> </p>
+        )}
       </div>
     </div>
   );
