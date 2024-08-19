@@ -4,16 +4,27 @@ import "./index.css";
 
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import POSPage from "./pages/pos";
 import HomePage from "./pages/home";
+import { getAccount } from "./functions/localStorage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        {/* Check if username exists in local storage */}
+        {getAccount() ? (
+          <Route
+            path="*"
+            element={<Navigate to={`/${getAccount()}`} replace />}
+          />
+        ) : (
+          <Route path="/" element={<HomePage />} />
+        )}
+        {/* POS Page Route */}
         <Route path="/:username" element={<POSPage />} />
       </Routes>
     </BrowserRouter>
