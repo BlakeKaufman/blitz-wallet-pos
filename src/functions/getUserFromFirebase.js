@@ -32,7 +32,7 @@ export async function getSignleContact(wantedName) {
 
   const q = query(
     userProfilesRef,
-    where("posSettings.storeName", "==", wantedName)
+    where("posSettings.storeNameLower", "==", wantedName)
   );
   const querySnapshot = await getDocs(q);
   const [data] = querySnapshot.docs.map((doc) => doc.data());

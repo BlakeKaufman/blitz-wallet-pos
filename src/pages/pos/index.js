@@ -40,7 +40,7 @@ function POSPage() {
 
   useEffect(() => {
     async function initPage() {
-      const data = await getSignleContact(username);
+      const data = await getSignleContact(username.toLowerCase());
 
       const retrivedBitcoinPrice = await getBitcoinPrice({
         denomination: data?.storeCurrency || "usd",
