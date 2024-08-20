@@ -9,7 +9,7 @@ export default function ConfirmPaymentScreen({ clearSettings }) {
   useEffect(() => {
     setTimeout(() => {
       setShowButton(true);
-    }, 600);
+    }, 400);
   }, []);
   return (
     <div className="ConfirmPayment-container">

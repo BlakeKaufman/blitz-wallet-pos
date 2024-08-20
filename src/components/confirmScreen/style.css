@@ -38,9 +38,10 @@
   position: absolute;
   top: 40%;
   left: 50%;
+  transform: translate(-50%, -40%);
   width: 20px;
   height: 20px;
-  border-radius: 10px;
+  border-radius: 10000px;
   z-index: 1;
 
   animation: expandCircle 2s forwards ease-in-out;
@@ -54,9 +55,11 @@
 }
 @keyframes expandCircle {
   0% {
-    scale: 1;
+    width: 20px;
+    height: 20px;
   }
   100% {
-    scale: 200;
+    width: 10000px;
+    height: 10000px;
   }
 }
