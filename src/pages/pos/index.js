@@ -43,7 +43,7 @@ function POSPage() {
       const data = await getSignleContact(username.toLowerCase());
 
       const retrivedBitcoinPrice = await getBitcoinPrice({
-        denomination: data?.storeCurrency || "usd",
+        denomination: data?.storeCurrency.toLowerCase() || "usd",
       });
 
       setHasAccount(data);

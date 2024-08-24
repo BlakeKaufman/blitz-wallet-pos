@@ -11,7 +11,7 @@ export default async function getBitcoinPrice({ denomination }) {
       }
     );
     const data = await response.json();
-    const bitcoinPrice = data.bitcoin.usd;
+    const bitcoinPrice = data.bitcoin[denomination.toLowerCase()];
     return bitcoinPrice;
   } catch (err) {
     console.log(err);
