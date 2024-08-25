@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import "./style.css";
 
@@ -12,7 +12,6 @@ import getBitcoinPrice from "../../functions/getBitcoinPrice";
 import ConfirmPaymentScreen from "../../components/confirmScreen/confirmPaymentScreen";
 import useIsTabActive from "../../hooks/isTapActive";
 import { clearAccount } from "../../functions/localStorage";
-import Popup from "reactjs-popup";
 import EnterBitcoinPrice from "../../components/popup/enterBitcoinPrice";
 function POSPage() {
   const { username } = useParams();
@@ -48,26 +47,18 @@ function POSPage() {
     async function initPage() {
       const data = await getSignleContact(username.toLowerCase());
 
-      // console.log(data.storeCurrency);
-      // const retrivedBitcoinPrice = await getBitcoinPrice({
-      //   denomination: data?.storeCurrency.toLowerCase() || "usd",
-      // });
+      const retrivedBitcoinPrice = await getBitcoinPrice({
+        denomination: data?.storeCurrency.toLowerCase() || "usd",
+      });
 
-      // if (!retrivedBitcoinPrice) buttonRef.current.click();
       setHasAccount(data);
 
-      setBitcoinPrice(undefined);
-    }
+      if (!retrivedBitcoinPrice) buttonRef.current.click();
 
+      setBitcoinPrice(retrivedBitcoinPrice);
+    }
     initPage();
   }, []);
-
-  useEffect(() => {
-    console.log(buttonRef);
-    if (!buttonRef.current || bitcoinPrice) return;
-
-    buttonRef.current.click();
-  }, [buttonRef.current]);
 
   useEffect(() => {
     if (Object.keys(boltzSwapClaimInfo).length === 0) return;
@@ -84,11 +75,7 @@ function POSPage() {
 
   return (
     <div className="POS-Container">
-      <button
-        onClick={() => setOpenPopup(true)}
-        hidden
-        ref={buttonRef}
-      ></button>
+      <button onClick={() => setOpenPopup(true)} hidden ref={buttonRef} />
 
       {openPopup ? (
         <EnterBitcoinPrice
@@ -96,7 +83,7 @@ function POSPage() {
           setBitcoinPrice={setBitcoinPrice}
         />
       ) : (
-        <></>
+        <div />
       )}
 
       <div className="POS-navbar">
@@ -116,7 +103,7 @@ function POSPage() {
           className="POS-back"
           src={icons.leftArrow}
         />
-        {hasAccount ? <h1 className="POS-name">{username}</h1> : <p></p>}
+        {hasAccount ? <h1 className="POS-name">{username}</h1> : <p />}
       </div>
       <div className="POS-ContentContainer">
         {boltzLoadingAnimation ? (
@@ -148,7 +135,7 @@ function POSPage() {
             ) : (
               <p className="POS-chargeItems">
                 {addedItems
-                  .map((value, index) => {
+                  .map((value) => {
                     return `$${(value.amount / 100).toLocaleString()}`;
                   })
                   .join(" + ")}
@@ -285,7 +272,7 @@ function POSPage() {
               style={{ opacity: !canReceivePayment ? 0.5 : 1 }}
               className="POS-btn"
             >
-              <img className="POS-btnIcon" src={icons.LNicon}></img>
+              <img className="POS-btnIcon" src={icons.LNicon} />
 
               {`Charge $${totalAmount.toLocaleString()}`}
             </button>
@@ -363,11 +350,5 @@ function POSPage() {
     setBoltzSwapClaimInfo(claimInfo);
   }
 }
-
-const CustomButton = forwardRef(({ open, ...props }, ref) => (
-  <button className="button" ref={ref} {...props}>
-    Trigger - {props.open ? "Opened" : "Closed"}
-  </button>
-));
 
 export default POSPage;
