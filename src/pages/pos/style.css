@@ -58,6 +58,7 @@
 }
 .POS-Container .POS-BalanceScrollView {
   width: auto;
+  max-width: calc(100dvw - 150px);
   height: fit-content;
   overflow-y: scroll;
 }

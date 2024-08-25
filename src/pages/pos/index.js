@@ -149,9 +149,6 @@ function POSPage() {
               </p>
             )}
             <div className="POS-BalanceView">
-              <h1 style={{ margin: 0 }} className="POS-totalBalance">
-                $
-              </h1>
               <div className="POS-BalanceScrollView">
                 <h1 className="POS-totalBalance">{`${
                   !chargeAmount
@@ -159,6 +156,16 @@ function POSPage() {
                     : Number(chargeAmount / 100).toLocaleString()
                 }`}</h1>
               </div>
+              <h1
+                style={{
+                  margin: "0 0 0 5px",
+                  fontSize: 30,
+                  alignSelf: "center",
+                }}
+                className="POS-totalBalance"
+              >
+                {hasAccount ? hasAccount.storeCurrency.toUpperCase() : ""}
+              </h1>
             </div>
             {totalAmount != 0 && convertedSatAmount < 1000 ? (
               <p className="POS-AmountError">{`Minimum invoice amount is ${(
