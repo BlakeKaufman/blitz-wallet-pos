@@ -6,6 +6,7 @@ export default function EnterBitcoinPrice({ setOpenPopup, setBitcoinPrice }) {
     <div
       onClick={() => {
         if (!enteredBitcoinPrice) return;
+        setEnteredBitcoinPrice(enteredBitcoinPrice);
         setOpenPopup(false);
       }}
       className="EnterBitconPrice-Container"
