@@ -3,14 +3,7 @@ import "./enterBitcoinPrice.css";
 export default function EnterBitcoinPrice({ setOpenPopup, setBitcoinPrice }) {
   const [enteredBitcoinPrice, setEnteredBitcoinPrice] = useState(0);
   return (
-    <div
-      onClick={() => {
-        if (!enteredBitcoinPrice) return;
-        setEnteredBitcoinPrice(enteredBitcoinPrice);
-        setOpenPopup(false);
-      }}
-      className="EnterBitconPrice-Container"
-    >
+    <div className="EnterBitconPrice-Container">
       <div className="ChangePaymentContainer">
         <p className="ChangePaymentContainer-Desc">
           No currency information found. Please enter current bitcoin price.
